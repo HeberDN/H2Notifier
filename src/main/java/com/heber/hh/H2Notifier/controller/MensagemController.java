@@ -8,6 +8,9 @@ import com.heber.hh.H2Notifier.service.MensagemService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,10 +26,12 @@ public class MensagemController {
     private final MensagemService mensagemService;
 
     @GetMapping
-    public ResponseEntity<ApiResponse<List<MensagemResponse>>> listarTodas (){
-        List<Mensagem> mensagens = mensagemService.listarTodas();
-        List<MensagemResponse> lista = mensagens.stream().map(mensagem -> modelMapper.map(mensagem, MensagemResponse.class)).collect(Collectors.toList());
-        return ResponseEntity.ok(new ApiResponse<>(true, "Lista de mensagens obtida com sucesso", lista));
+    public ResponseEntity<ApiResponse<Page<MensagemResponse>>> listarTodas (
+            @PageableDefault(size = 10, sort = "id")Pageable pageable){
+
+        Page<Mensagem> mensagensPage = mensagemService.listarTodas(pageable);
+        Page<MensagemResponse> responsePage = mensagensPage.map( mensagem -> modelMapper.map(mensagem, MensagemResponse.class));
+        return ResponseEntity.ok(new ApiResponse<>(true, "Lista de mensagens obtida com sucesso", responsePage));
     }
 
     @GetMapping("/{id}")

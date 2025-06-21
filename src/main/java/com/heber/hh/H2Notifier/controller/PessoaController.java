@@ -32,7 +32,7 @@ public class PessoaController {
     public ResponseEntity<ApiResponse<Void>> deletar (@PathVariable Long id){
         log.info("Tentado deletar pessoa com id: {}", id);
         pessoaService.deletarPessoa(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(new ApiResponse<>(true, "Pessoa excluída com sucesso."));
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{id}")

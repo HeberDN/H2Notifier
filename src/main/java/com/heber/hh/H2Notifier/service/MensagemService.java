@@ -9,6 +9,8 @@ import com.heber.hh.H2Notifier.repository.MensagemRepository;
 import com.heber.hh.H2Notifier.utilities.TemplateProcessor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -25,8 +27,8 @@ public class MensagemService {
 
     private final MensagemRepository mensagemRepository;
 
-    public List<Mensagem> listarTodas (){
-        return mensagemRepository.findAll();
+    public Page<Mensagem> listarTodas (Pageable pageable){
+        return mensagemRepository.findAll(pageable);
     }
 
     public Mensagem buscarMensagemPorId(Long id) {

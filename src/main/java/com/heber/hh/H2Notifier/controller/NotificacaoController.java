@@ -36,4 +36,13 @@ public class NotificacaoController {
         return ResponseEntity.ok(new ApiResponse<>(true, "Preview gerado com sucesso.", mensagemPreview));
     }
 
+    @GetMapping("/test")
+    public ResponseEntity<String> testEnv() {
+        String sid = System.getenv("TWILIO_ACCOUNT_SID");
+        String token = System.getenv("TWILIO_AUTHTOKEN");
+        String emailPassword = System.getenv("EMAIL_PASSWORD");
+
+        return ResponseEntity.ok("SID: " + sid + "\nTOKEN: " + token + "\nEMAIL_PASS: " + emailPassword);
+    }
+
 }
